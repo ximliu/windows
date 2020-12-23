@@ -72,26 +72,28 @@ namespace ProxySU
 
 
         //伪装网站处理
-        private void DisguiseURLprocessing()
-        {
+        //private string DisguiseURLprocessing(string fakeUrl)
+        //{
+            //var uri = new Uri(fakeUrl);
+            //return uri.Host;
             //处理伪装网站域名中的前缀
-            if (TextBoxMaskSites.Text.ToString().Length >= 7)
-            {
-                string testDomain = TextBoxMaskSites.Text.Substring(0, 7);
-                if (String.Equals(testDomain, "https:/") || String.Equals(testDomain, "http://"))
-                {
-                    MainWindow.ReceiveConfigurationParameters[7] = TextBoxMaskSites.Text.Replace("/", "\\/");
-                }
-                else
-                {
-                    MainWindow.ReceiveConfigurationParameters[7] = "http:\\/\\/" + TextBoxMaskSites.Text;
-                }
-            }
-        }
+            //if (fakeUrl.Length >= 7)
+            //{
+            //    string testDomainMask = fakeUrl.Substring(0, 7);
+            //    if (String.Equals(testDomainMask, "https:/") || String.Equals(testDomainMask, "http://"))
+            //    {
+            //        string[] tmpUrl = fakeUrl.Split('/');
+            //        fakeUrl = tmpUrl[2];
+            //    }
+
+            //}
+            //return fakeUrl;
+       // }
 
         private void ButtondDecide_Click(object sender, RoutedEventArgs e)
         {
-            bool testDomain = true;
+            bool preDomainMask = ClassModel.PreDomainMask(TextBoxMaskSites.Text);
+            bool domainNotEmpty = true;
             //UncheckLayouts(TabControlTemplate);
             //SS 经典模式被选中
             if (RadioButtonNonePluginSS.IsChecked == true)
@@ -114,19 +116,16 @@ namespace ProxySU
             //SS+obfs+TLS+web模式被选中
             else if (RadioButtonObfsPluginHttpsWebSS.IsChecked == true)
             {
-                //if (string.IsNullOrEmpty(TextBoxDomainSS.Text.ToString()) == true)
-                //{
-                //    //****** "域名不能为空，请检查相关参数设置！" ******
-                //    MessageBox.Show(Application.Current.FindResource("MessageBoxShow_DomainNotEmpty").ToString());
-                //    return;
-                //}
-                testDomain = TestDomainIsEmpty();
+
+                domainNotEmpty = ClassModel.TestDomainIsEmpty(TextBoxDomainSS.Text);
                 //传递模板类型
                 MainWindow.ReceiveConfigurationParameters[0] = "ObfsPluginHttpsWebSS";
                 //传递方案名称
                 MainWindow.ReceiveConfigurationParameters[8] = RadioButtonObfsPluginHttpsWebSS.Content.ToString();
                 //传递域名
-                MainWindow.ReceiveConfigurationParameters[4] = TextBoxDomainSS.Text.ToString();
+                MainWindow.ReceiveConfigurationParameters[4] = PreTrim(TextBoxDomainSS.Text);
+                //传递伪装网站
+                MainWindow.ReceiveConfigurationParameters[7] = ClassModel.DisguiseURLprocessing(PreTrim(TextBoxMaskSites.Text));
 
             }
 
@@ -138,51 +137,37 @@ namespace ProxySU
                 //传递方案名称
                 MainWindow.ReceiveConfigurationParameters[8] = RadioButtonWebSocketSS.Content.ToString();
                 //传递路径
-                MainWindow.ReceiveConfigurationParameters[6] = TextBoxWebSocketPathSS.Text.ToString();
+                MainWindow.ReceiveConfigurationParameters[6] = PreTrim(TextBoxWebSocketPathSS.Text);
             }
  
             //V2Ray-Plugin SS+WebSocket+TLS+Web模式被选中
             else if (RadioButtonWebSocketTLSWebFrontSS.IsChecked == true || RadioButtonWebSocketTLSWebFrontSSHot.IsChecked == true)
             {
-                testDomain = TestDomainIsEmpty();
+                domainNotEmpty = ClassModel.TestDomainIsEmpty(TextBoxDomainSS.Text);
                 //传递模板类型
                 MainWindow.ReceiveConfigurationParameters[0] = "WebSocketTLSWebFrontSS";
                 //传递方案名称
                 MainWindow.ReceiveConfigurationParameters[8] = RadioButtonWebSocketTLSWebFrontSS.Content.ToString();
 
                 //传递路径
-                MainWindow.ReceiveConfigurationParameters[6] = TextBoxWebSocketPathSS.Text.ToString();
+                MainWindow.ReceiveConfigurationParameters[6] = PreTrim(TextBoxWebSocketPathSS.Text);
                 //传递域名
-                MainWindow.ReceiveConfigurationParameters[4] = TextBoxDomainSS.Text.ToString();
+                MainWindow.ReceiveConfigurationParameters[4] = PreTrim(TextBoxDomainSS.Text);
                 //传递伪装网站
-                //MainWindow.ReceiveConfigurationParameters[7] = TextBoxMaskSites.Text.ToString();
-                //处理伪装网站域名中的前缀
-                //DisguiseURLprocessing();
-                //if (TextBoxMaskSites.Text.ToString().Length >= 7)
-                //{
-                //    string testDomain = TextBoxMaskSites.Text.Substring(0, 7);
-                //    if (String.Equals(testDomain, "https:/") || String.Equals(testDomain, "http://"))
-                //    {
-                //        //MessageBox.Show(testDomain);
-                //        MainWindow.ReceiveConfigurationParameters[7] = TextBoxMaskSites.Text.Replace("/", "\\/");
-                //    }
-                //    else
-                //    {
-                //        MainWindow.ReceiveConfigurationParameters[7] = "http:\\/\\/" + TextBoxMaskSites.Text;
-                //    }
-                //}
+                MainWindow.ReceiveConfigurationParameters[7] = ClassModel.DisguiseURLprocessing(PreTrim(TextBoxMaskSites.Text));
+
             }
             //V2Ray-Plugin SS+QUIC模式被选中
             else if (RadioButtonQuicSS.IsChecked == true)
             {
-                testDomain = TestDomainIsEmpty();
+                domainNotEmpty = ClassModel.TestDomainIsEmpty(TextBoxDomainSS.Text);
                 //传递模板类型
                 MainWindow.ReceiveConfigurationParameters[0] = "QuicSS";
                 //传递方案名称
                 MainWindow.ReceiveConfigurationParameters[8] = RadioButtonQuicSS.Content.ToString();
 
                 //传递域名
-                MainWindow.ReceiveConfigurationParameters[4] = TextBoxDomainSS.Text.ToString();
+                MainWindow.ReceiveConfigurationParameters[4] = PreTrim(TextBoxDomainSS.Text);
 
             }
             //SS+kcptun-plugin模式被选中
@@ -197,40 +182,40 @@ namespace ProxySU
             //SS+GoQuiet-Plugin模式被选中
             else if (RadioButtonGoQuietPluginSS.IsChecked == true)
             {
-                testDomain = TestDomainIsEmpty();
+                domainNotEmpty = ClassModel.TestDomainIsEmpty(TextBoxDomainSS.Text);
                 //传递模板类型
                 MainWindow.ReceiveConfigurationParameters[0] = "GoQuietPluginSS";
                 //传递方案名称
                 MainWindow.ReceiveConfigurationParameters[8] = RadioButtonGoQuietPluginSS.Content.ToString();
                 //传递域名
-                MainWindow.ReceiveConfigurationParameters[4] = TextBoxDomainSS.Text.ToString();
+                MainWindow.ReceiveConfigurationParameters[4] = PreTrim(TextBoxDomainSS.Text);
 
             }
             //SS+Cloak-Plugin模式被选中
             else if (RadioButtonCloakPluginSS.IsChecked == true)
             {
-                testDomain = TestDomainIsEmpty();
+                domainNotEmpty = ClassModel.TestDomainIsEmpty(TextBoxDomainSS.Text);
                 //传递模板类型
                 MainWindow.ReceiveConfigurationParameters[0] = "CloakPluginSS";
                 //传递方案名称
                 MainWindow.ReceiveConfigurationParameters[8] = RadioButtonCloakPluginSS.Content.ToString();
                 //传递域名
-                MainWindow.ReceiveConfigurationParameters[4] = TextBoxDomainSS.Text.ToString();
+                MainWindow.ReceiveConfigurationParameters[4] = PreTrim(TextBoxDomainSS.Text);
 
             }
 
             //传递服务端口
-            MainWindow.ReceiveConfigurationParameters[1] = TextBoxServerListenPortSS.Text.ToString();
+            MainWindow.ReceiveConfigurationParameters[1] = PreTrim(TextBoxServerListenPortSS.Text);
             //传递uuid密码
-            MainWindow.ReceiveConfigurationParameters[2] = TextBoxNewUUIDSS.Text.ToString();
+            MainWindow.ReceiveConfigurationParameters[2] = PreTrim(TextBoxNewUUIDSS.Text);
             //传递加密方式
             MainWindow.ReceiveConfigurationParameters[3] = GetEncryptionMethodSS();
 
-            if (testDomain)
+            if (domainNotEmpty == true && preDomainMask == true)
             {
                 this.Close();
             }
-            
+
         }
 
         private void ButtondCancel_Click(object sender, RoutedEventArgs e) => Close();
@@ -278,9 +263,9 @@ namespace ProxySU
             TextBoxDomainSS.Visibility = Visibility.Visible;
             //检测域名按钮
             ButtonDomain.Visibility = Visibility.Collapsed;
-            //隐藏伪装网站
-            TextBlockMaskSites.Visibility = Visibility.Collapsed;
-            TextBoxMaskSites.Visibility = Visibility.Collapsed;
+            //显示伪装网站
+            TextBlockMaskSites.Visibility = Visibility.Visible;
+            TextBoxMaskSites.Visibility = Visibility.Visible;
 
             //初始化密码
             TextBoxNewUUIDSS.Text = GenerateRandomUUID();
@@ -289,7 +274,6 @@ namespace ProxySU
             //清除其他选项卡中的选项
             UncheckLayouts((TabItem)TabControlTemplate.SelectedItem);
         }
-
 
         //使用V2ray-plugin 的Websocket over https (TLS)
         private void RadioButtonUseDomainWebsocketTls_Checked(object sender, RoutedEventArgs e)
@@ -306,9 +290,9 @@ namespace ProxySU
             TextBoxDomainSS.Visibility = Visibility.Visible;
             //检测域名按钮
             ButtonDomain.Visibility = Visibility.Collapsed;
-            //隐藏伪装网站
-            TextBlockMaskSites.Visibility = Visibility.Collapsed;
-            TextBoxMaskSites.Visibility = Visibility.Collapsed;
+            //显示伪装网站
+            TextBlockMaskSites.Visibility = Visibility.Visible;
+            TextBoxMaskSites.Visibility = Visibility.Visible;
 
             //初始化密码
             TextBoxNewUUIDSS.Text = GenerateRandomUUID();
@@ -386,19 +370,25 @@ namespace ProxySU
 
         #endregion
 
-        //域名检测是否为空
-        private bool TestDomainIsEmpty()
+        //TextBox输入内容做预处理
+        private string PreTrim(string preString)
         {
-            if (string.IsNullOrEmpty(TextBoxDomainSS.Text.ToString()) == true)
-            {
-                //****** "域名不能为空，请检查相关参数设置！" ******
-                MessageBox.Show(Application.Current.FindResource("MessageBoxShow_DomainNotEmpty").ToString());
-                return false;
-            }
-            else
-            {
-                return true;
-            }
+            return preString.Trim();
         }
+
+        //域名检测是否为空
+        //private bool TestDomainIsEmpty()
+        //{
+        //    if (string.IsNullOrEmpty(PreTrim(TextBoxDomainSS.Text)) == true)
+        //    {
+        //        //****** "域名不能为空，请检查相关参数设置！" ******
+        //        MessageBox.Show(Application.Current.FindResource("MessageBoxShow_DomainNotEmpty").ToString());
+        //        return false;
+        //    }
+        //    else
+        //    {
+        //        return true;
+        //    }
+        //}
     }
 }

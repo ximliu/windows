@@ -1,42 +1,59 @@
-##  近期暂停更新说明
-近期业余时间少了，可能无暇顾及这个项目，所以暂时停一段时间，等事情忙过了，还会来再继续更新的。ProxySU还在发展完善中。肯定存在众多问题，如果新版本2.4.4无法成功安装，可以使用以前的旧版本2.4.2试试，另外切换一下模式。或者更换一个linux版本，各个版本都试一下，应该会有可以成功的，如果是证书总是申请错误，可能是需要更换域名或者IP。本人只是一个业余的编程爱好者，还请多理解一下，谢谢各位网友对ProxySU的喜爱。过段时间，ProxySU会继续更新的。
-# ProxySU2.
-V2ray, Trojan, NaiveProxy, Trojan-Go, ShadowsocksR(SSR),Shadowsocks-libev and Plugins,MTProto+TLS,BBR install tools for windows。  
-V2ray，Trojan，NaiveProxy, Trojan-Go, ShadowsocksR(SSR),Shadowsocks-libev及相关插件,MTProto+TLS 一键安装工具。  
+
+# ProxySU
+V2ray, Xray,Trojan, NaiveProxy, Trojan-Go, ShadowsocksR(SSR),Shadowsocks-libev and Plugins,MTProto+TLS,BBR install tools for windows。  
+V2ray，Xray,Trojan，NaiveProxy, Trojan-Go, ShadowsocksR(SSR),Shadowsocks-libev及相关插件,MTProto+TLS 一键安装工具。支持纯ipv6主机一键安装代理。  
 BBR一键开启（仅支持CentOS8/Debian9/10/Ubuntu18.04及以上）,支持语言:English、简体中文、正体（繁体）中文。
 
-编译环境Visual Studio 2017  使用WPF界面。可一键安装V2ray、Trojan、NaiveProxy，Trojan-Go,ShadowsocksR(SSR),Shadowsocks-libev and Plugins 后续还会再添加其他。  
+编译环境Visual Studio 2017  使用WPF界面。可一键安装V2ray、Xray,Trojan、NaiveProxy，Trojan-Go,ShadowsocksR(SSR),Shadowsocks-libev and Plugins、MTProto+TLS 后续还会再添加其他。  
 
-##### 使用提醒：  
-如果是纯IPV6主机，则在安装过程中，将临时设置NAT64网关。仅用于布署代理，布署完成后，则会删除。注意，纯IPV6 的主机无法直接访问纯IPV4的网络。  
-ProxySU的安装流程，是假设在全新系统下，没有装过以上代理软件，如果已经安装过，最好将系统重装一下，会减少很多的麻烦。  
-ProxySU将安装代理软件的最新版本，为了最好的兼容，请确保客户端也是当前最新版本。  
-ProxySU在开发过程中，一般都是在vultr的vps中测试，测试系统版本为：Centos7/8  Debian9/10 Ubuntu18.04/20.04。由于同一个版本的Linux系统，不同的VPS商,云服务商也不完全相同。实在没有精力去逐一测试。如果安装失败，可以先尝试以下方法解决：1.如果以前装过翻墙软件，请重装一下vps系统后，再试。2.更换为其他版本的linux发行版，再试。以上两种方法不能解决，请各位翻墙网友及时发[issues](https://github.com/proxysu/windows/issues)，或者到[TG群组](https://t.me/proxysuissues)，[推特](https://twitter.com/proxysu_true)下反馈，希望这个工具做的越来越好，让更多人喜欢。谢谢。
 
-##### V2ray可一键安装的模式有： 
 
-* VLESS+TCP+XTLS+Web (最新黑科技)
+#### 免责声明：ProxySU属于自用分享工具，请勿用于违背良知与道德之事，否则后果自负。  
+
+#### 再次声明：  
+##### ProxySU本着技术中立的原则，没有任何立场，也不持任何见解，更不涉及任何政治因素。ProxySU仅仅主张人的知情权，这是一项天赋人权，也是各国宪法所保障的最基本人权。知情权包含对同一事物正负两方面评价的知情，至于相信哪个，由人自己选择。正如李文亮医生临终所言：一个正常的社会是不应该只有一种声音的。如果真的存在对某一事物只有一种声音的评价，无论其评价是正面还是负面，都是要慎重对待，并需要重新审视的。  
+
+##### Xray可一键安装的模式有： 
+当前Xray是V2Ray的超集，未来Xray会有不同的发展方向。  
+* VLESS+TCP+XTLS+Web (最新黑科技)  
 * Vless+tcp+TLS+Web (新热门协议)  
 * VLESS+WebSocket+TLS+Web  
 * VLESS+http2+TLS+Web  
-
+* VLESS+mKCP
 * tcp 
 * tcp+http伪装  
 * tcp+TLS 
 * tcp+TLS （自签证书）
-
 * WebSocket
 * WebSocket+TLS 
 * WebSocket+TLS+Web 
 * WebSocket+TLS（自签证书） 
-
 * http2  
 * http2+TLS+Web
 * http2（自签证书）  
-
 * mKCP及各种伪装 
 * QUIC及各种伪装。  
-注：mKCP和QUIC模式使用udp协议，可以有效减少网络延时，有加速的作用，但在网络管控严厉时期，会导致IP被封，遇到的一次，就是刚安装好，使用了3个小时后，IP被封（现已确认是mKCP的流量被识别导致，项目组正在维护中。2020.6.10维护完毕，升级到版本4.24.2及以上，启用mKCP密钥可增强抗识别）。以上模式最推荐的是WebSocket+TLS+Web 和http2+TLS+Web 需要有一个域名。如果能加上CDN则稳定性更好。加上CDN后，是加速还是减速，与线路有关。
+
+##### V2ray可一键安装的模式有： 
+
+* Vless+tcp+TLS+Web (新热门协议)  
+* VLESS+WebSocket+TLS+Web  
+* VLESS+http2+TLS+Web  
+* VLESS+mKCP
+* tcp 
+* tcp+http伪装  
+* tcp+TLS 
+* tcp+TLS （自签证书）
+* WebSocket
+* WebSocket+TLS 
+* WebSocket+TLS+Web 
+* WebSocket+TLS（自签证书） 
+* http2  
+* http2+TLS+Web
+* http2（自签证书）  
+* mKCP及各种伪装 
+* QUIC及各种伪装。  
+注：mKCP和QUIC模式使用udp协议，可以有效减少网络延时，有加速的作用，但在网络管控严厉时期，会导致端口或IP被封。以上模式最推荐的是WebSocket+TLS+Web 和http2+TLS+Web 需要有一个域名。如果能加上CDN则稳定性更好。加上CDN后，是加速还是减速，与线路有关，也与当前所用的CDN的IP有关，这里是一个筛选CDN最优IP的工具： [better-cloudflare-ip](https://github.com/badafans/better-cloudflare-ip) -----适用于使用 Cloudflare 的CDN。
 
 ##### Trojan 可一键安装：  
 * Trojan + TLS + Web
@@ -51,7 +68,7 @@ ProxySU在开发过程中，一般都是在vultr的vps中测试，测试系统�
 ##### ShadowsocksR(SSR)一键安装：  
 * SSR+TLS+Caddy  
 
-##### Shadowsocks-libev及相关插件一键安装：  
+##### SS (Shadowsocks-libev) 及相关插件一键安装：  
 * SS 经典模式  
 * SS+WebSocket+TLS+Caddy(Web前置) (推荐)  
 * SS+WebSocket  
@@ -65,13 +82,49 @@ ProxySU在开发过程中，一般都是在vultr的vps中测试，测试系统�
 
 ##### 支持的VPS系统为：  
 * CentOS 7/8   
-* Debian 8/9/10 (推荐 9)  
+* Debian 8/9/10 (推荐 10)  
 * Ubuntu 16.04及以上
 
-(注意：如果系统启用了SELinux且工作在Enforcing模式下时，需要将Enforcing更改为Permissive模式，否则使用WebSocket+TLS+Web时，Caddy的service无法开机启动，这种情形一般出现在Centos7/8中，程序在安装过程中将自动处理。)
+(注意：如果系统启用了SELinux且工作在Enforcing模式下时，需要将Enforcing更改为Permissive模式，否则使用WebSocket+TLS+Web时，Caddy的service无法开机启动，这种情形一般出现在Centos7/8中，程序在安装过程中将自动处理。)  
 
-##### 关于卸载功能  
-有网友要求，可以卸载其他方法安装的，经过考虑，还是不这样做。1，容易引起争议。2，不容易卸载干净，在用ProxySU安装时可能还会出错。所以第一次使用ProxySU建议使用全新系统，如果以前安装过代理程序，请尽可能将系统重装一下，可以减少很多安装的错误和冲突。  
+##### ProxySU使用教程  
+[一键搭建科学上网工具ProxySU](https://github.com/Alvin9999/new-pac/wiki/%E4%B8%80%E9%94%AE%E6%90%AD%E5%BB%BA%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91%E5%B7%A5%E5%85%B7ProxySU)------------网友 [Alvin9999](https://github.com/Alvin9999) 制作。    
+[Youtube视频教程](https://www.youtube.com/watch?v=ipFZDE1Aqoo)---------------------------网友 [jc-nf那坨](https://www.youtube.com/channel/UC52iA9wBGGN7LBWSdyI-yfg) 制作，需要先翻墙后观看。  
+
+##### 使用提醒及常见问题：  
+有些vps主机商会对vps所使用的资源进行限制，可能会造成Caddy启动失败，提示“failed to create new OS thread ”错误，在一些免费vps类型上经常出现。可以切换为不使用web伪装的代理模式（不填伪装网址的就是了）。  
+
+vps主机配置推荐内存在256M及以上，过低的内存配置，可能导致某些代理方案不能成功运行。
+
+纯IPV6主机，安装过程中，将临时设置NAT64网关。仅用于布署代理，布署完成后，则会删除,若设置伪装网站，该网址需要可以使用ipv6访问，否则将无效。注意，纯IPV6 的主机无法直接访问纯IPV4的网络。(不推荐使用纯ipv6主机做为代理节点)  
+
+ProxySU的安装流程，是假设在全新系统下，没有装过以上代理软件，如果已经安装过，最好将系统重装一下，会减少很多的麻烦。  
+ProxySU将安装代理软件的最新版本，为了最好的兼容，请确保客户端也是当前最新版本。  
+
+在实际使用中，发现Centos7,debian8,ubunutu16.04等版本，安装出错的机率很大，不建议使用以上版本。低于以上版本的，无法使用ProxySU.  
+
+Nat类型的vps主机，因为无法独占80，443端口，使用tls模式的代理，可能不能申请证书，安装会失败。  
+
+ProxySU在开发过程中，一般都是在vultr的vps中测试，测试系统版本为：Debian 10。由于同一个版本的Linux系统，不同的VPS商,云服务商也不完全相同。实在没有精力去逐一测试。如果安装失败，可以先尝试以下方法解决：  
+
+1.如果以前装过翻墙软件，请重装一下vps系统后，再试。  
+2.更换为其他版本的linux发行版，推荐使用 Debian 9与Debian 10系统，再试。  
+
+以上两种方法不能解决，请各位网友及时发[issues](https://github.com/proxysu/windows/issues)，或者到[TG群组](https://t.me/proxysuissues)，反馈。  
+
+在以上平台反馈求助时，请尽可能将安装出错的日志保存下来，并提供，将有利于查找错误原因。  
+在反馈问题前，可以先看一下 <<[常见问题集锦](https://github.com/proxysu/windows/wiki/CommonError)>>，是否可以解决。  
+
+##### 关于兼容的密钥格式    
+ProxySU调用[SSH.NET](https://github.com/sshnet/SSH.NET)库登录远程主机，目前[SSH.NET](https://github.com/sshnet/SSH.NET)只支持以下格式的密钥：  
+* RSA in OpenSSL PEM and ssh.com format  
+* DSA in OpenSSL PEM and ssh.com format  
+* ECDSA 256/384/521 in OpenSSL PEM format  
+* ED25519 in OpenSSH key format  
+见官方说明：  
+https://github.com/sshnet/SSH.NET#public-key-authentication  
+如果当前拥有的密钥格式不是以上几种，可以下载[puttygen](https://www.puttygen.com/)工具，将其转换成上面的格式。  
+[puttygen](https://www.puttygen.com/)使用教程可以[看这里](https://github.com/proxysu/windows/wiki/PrivateKeyConversionFormat)
 
 ##### 关于Let's Encrypt证书  
 ProxySU所使用的acme.sh与Caddy，都是申请的Let's Encrypt免费证书。三个月需要续期，都是自动完成续期的，无需用户操作。但是Let's Encrypt证书有一些限制，请知晓，如下：  
@@ -86,7 +139,14 @@ Let's Encrypt证书申请频率的限制
 更新证书没有次数的限制，但是更新证书会受到上述重复证书的限制  
 如果提示证书申请失败，可以尝试更换域名再试（添加或换不同的二级域名，也算是新域名）  
 同一IP地址，在短时间内过于频繁的申请证书，也会被限制，此时更换域名也无法申请成功，只能等待一段时间，或者更换Ip.  
-(网友分享)
+(网友分享)  
+
+#### 伪装网站使用说明  
+伪装网站是网上已经现存的任何网站，没有敏感信息的，没有被墙的国外网站都行，不需要自已搭建。只填域名，不要带 http 或 /，也不要与当前使用的域名相同。  
+
+###### Xray模式目前已支持生成用于
+
+* 使用与V2Ray相兼容的客户端  
 
 ###### V2ray模式目前已支持生成用于
 
@@ -117,7 +177,7 @@ Let's Encrypt证书申请频率的限制
 ###### NaiveProxy支持生成用于：
 
 * [NaiveProxy官方客户端](https://github.com/klzgrad/naiveproxy/releases)配置文件（windows客户端配置）  
-* [NaiveGUI](https://github.com/ExcitedCodes/NaiveGUI/releases)(第三方Windows图形客户端)URL导入链接。  
+* [NaiveSharp(windows)](https://github.com/KevinZonda/NaiveSharp/releases)(第三方Windows图形客户端)URL导入链接。  
 * [Qv2ray (windows)](https://github.com/Qv2ray/Qv2ray)客户端导入二维码和URL  
 注：这里多说几句NaiveProxy，现在墙越来越高，翻墙软件需要隐藏访问目标网址和加密数据的同时，还要隐藏自己的流量特征，不被识别出是代理流量。V2ray，Trojan都有其自己的实现。而NaiveProxy是配合Caddy的一个http.forwardproxy插件，插件有防嗅探，转发流量的功能。代理http流量很完美，但是在代理https流量时，会出现长度特征，NaiverProxy则弥补了这一点，消除了代理https时的流量特征，另外还应用 [Chrome's network stack](https://www.chromium.org/developers/design-documents/network-stack).更好的消除TLS的指纹特征。详细介绍请看项目官方介绍：[NaiveProxy官方文档](https://github.com/klzgrad/naiveproxy)。有兴趣的不妨一试。
 
@@ -127,7 +187,7 @@ Let's Encrypt证书申请频率的限制
 * [SSRR（Android）](https://github.com/shadowsocksrr/shadowsocksr-android/releases)导入二维码和URL  
 * [Shadowrocket (ios)](https://apps.apple.com/us/app/shadowrocket/id932747118)导入二维码和URL  
 
-###### Shadowsocks-libev 目前已支持生成用于  
+###### SS (Shadowsocks-libev) 目前已支持生成用于  
 
 * [Shadowsocks (windows)](https://github.com/shadowsocks/shadowsocks-windows/releases)客户端导入二维码和URL  
 * [shadowsocks（Android）](https://github.com/shadowsocks/shadowsocks-android/releases)导入二维码和URL  
@@ -136,6 +196,7 @@ Let's Encrypt证书申请频率的限制
 ## 程序工作流程：  
 1. 使用[SSH.NET](https://github.com/sshnet/SSH.NET)登录远程主机  
 2. 根据选择的代理来调用相应的脚本：  
+  * 选择Xray，则调用Xray官方安装脚本 `curl -o /tmp/go.sh https://raw.githubusercontent.com/XTLS/Xray-install/main/install-release.sh` `yes | bash /tmp/go.sh -f` ，安装Xray。
   * 选择V2ray，则调用V2ray官方安装脚本 `curl -o /tmp/go.sh https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh` `yes | bash /tmp/go.sh -f` ，安装V2ray。  
   * 选择Trojan，则调用Trojan官方安装脚本 `curl -o /tmp/trojan-quickstart.sh https://raw.githubusercontent.com/trojan-gfw/trojan-quickstart/master/trojan-quickstart.sh` `yes | bash /tmp/trojan-quickstart.sh` 安装Trojan。  
   * 选择Trojan-Go，则调用本项目内的trojan-go.sh安装， `curl -o /tmp/trojan-go.sh https://raw.githubusercontent.com/proxysu/shellscript/master/trojan-go.sh` `yes | bash /tmp/trojan-go.sh -f` 安装Trojan-GO。  
@@ -174,6 +235,9 @@ Let's Encrypt证书申请频率的限制
 [MTProto go语言版](https://github.com/9seconds/mtg/tree/master)  
 
 
+##### 关于卸载功能  
+有网友要求，可以卸载其他方法安装的，经过考虑，还是不这样做。1，容易引起争议。2，不容易卸载干净，在用ProxySU安装时可能还会出错。所以第一次使用ProxySU建议使用全新系统，如果以前安装过代理程序，请尽可能将系统重装一下，可以减少很多安装的错误和冲突。  
+
 ## License
 
 [(GPL-V3)](https://raw.githubusercontent.com/proxysu/windows/master/LICENSE)
@@ -199,9 +263,8 @@ Microsoft [.NET Framework 4.0](https://dotnet.microsoft.com/download/dotnet-fram
 ## 程序使用问题反馈  
 * Telegram群组 https://t.me/proxysuissues   
 * Telegram频道 https://t.me/proxysu_channel 
-* Tiwtter  [ProxySU_True](https://twitter.com/proxysu_true)   
 * 在线提问  https://github.com/proxysu/windows/issues  
-* 邮箱反馈  proxysetuptools@gmail.com  
+
 在使用遇到问题时，请先看一下[常见问题集锦](https://github.com/proxysu/windows/wiki/CommonError)，如果还不能解决，可以到以上平台询问，个人精力有限，尽力解答。
 ## v1.0.0发布小记  
   足足用了近两个月的业余时间，终于做成一个功能还算完善的版本。虽是一个简单的小工具，没想到对于我这个初学C#的人，还是有点小吃力，如果不是因为武汉肺炎疫情，被禁足在家，还真没时间。学习C#，为啥编写这样一个小工具软件来练手？现在一键安装脚本多的是，这样的工具还有必要吗？咋说呢？我也不知道有多少人会喜欢这个小工具，只是觉得自己用着方便，也想方便一下别人吧，喜欢用就用，不喜欢，也随意。  

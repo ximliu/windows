@@ -6,14 +6,14 @@
             "settings": {
                 "clients": [
                     {
-                        "id": null,
-                        "flow": "xtls-rprx-origin"
+                        "id": null
                     }
                 ],
                 "decryption": "none",
                 "fallbacks": [
                     {
-                        "dest": null
+                        "dest": 1310,
+                        "xver": 1
                     },
                     {
                         "path": "/websocket",
@@ -34,7 +34,7 @@
             },
             "streamSettings": {
                 "network": "tcp",
-                "security": "xtls",
+                "security": "tls",
                 "xtlsSettings": {
                     "alpn": [
                         "http/1.1"
@@ -45,6 +45,30 @@
                             "keyFile": "/usr/local/etc/v2ray/ssl/v2ray_ssl.key"
                         }
                     ]
+                }
+            }
+        },
+        {
+            "port": 1310,
+            "listen": "127.0.0.1",
+            "protocol": "trojan",
+            "settings": {
+                "clients": [
+                    {
+                        "password": null
+                    }
+                ],
+                "fallbacks": [
+                    {
+                        "dest": null
+                    }
+                ]
+            },
+            "streamSettings": {
+                "network": "tcp",
+                "security": "none",
+                "tcpSettings": {
+                    "acceptProxyProtocol": true
                 }
             }
         },
